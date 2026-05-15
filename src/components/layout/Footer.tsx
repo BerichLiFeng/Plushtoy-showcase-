@@ -2,7 +2,6 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
-import { getSupabaseClient } from "@/storage/database/supabase-client";
 import { Instagram, Globe, PinIcon } from "lucide-react";
 
 interface SocialLink {
@@ -29,13 +28,13 @@ export default function Footer() {
 
   useEffect(() => {
     async function fetchSocial() {
-      const client = getSupabaseClient();
-      const { data } = await client
-        .from("social_links")
-        .select("*")
-        .eq("is_active", true)
-        .order("sort_order", { ascending: true });
-      if (data) setSocialLinks(data as SocialLink[]);
+      try {
+        const res = await fetch("/api/public/social");
+        const data = await res.json();
+        if (Array.isArray(data)) setSocialLinks(data as SocialLink[]);
+      } catch (e) {
+        console.error("Failed to fetch social links", e);
+      }
     }
     fetchSocial();
   }, []);

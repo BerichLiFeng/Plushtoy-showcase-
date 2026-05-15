@@ -1,56 +1,50 @@
-import { getSupabaseClient } from "@/storage/database/supabase-client";
-import { NextResponse } from "next/server";
+import { getAll, getById, create, update, remove } from "@/lib/json-db";
+import { NextRequest, NextResponse } from "next/server";
 
-type ApiConfig = {
+interface TableConfig {
   table: string;
   fields: string[];
-  searchFields?: string[];
-};
-
-function createAdminApi(config: ApiConfig) {
-  const { table, fields } = config;
-
-  return {
-    async GET() {
-      const client = getSupabaseClient();
-      const { data, error } = await client.from(table).select("*").order("sort_order", { ascending: true });
-      if (error) return NextResponse.json({ error: error.message }, { status: 500 });
-      return NextResponse.json(data || []);
-    },
-
-    async POST(request: Request) {
-      const body = await request.json();
-      const payload: Record<string, unknown> = {};
-      for (const f of fields) {
-        if (body[f] !== undefined) payload[f] = body[f];
-      }
-      const client = getSupabaseClient();
-      const { data, error } = await client.from(table).insert(payload).select().single();
-      if (error) return NextResponse.json({ error: error.message }, { status: 500 });
-      return NextResponse.json(data);
-    },
-
-    async PUT(request: Request) {
-      const body = await request.json();
-      const { id, ...rest } = body;
-      const payload: Record<string, unknown> = {};
-      for (const f of fields) {
-        if (rest[f] !== undefined) payload[f] = rest[f];
-      }
-      const client = getSupabaseClient();
-      const { data, error } = await client.from(table).update(payload).eq("id", id).select().single();
-      if (error) return NextResponse.json({ error: error.message }, { status: 500 });
-      return NextResponse.json(data);
-    },
-
-    async DELETE(request: Request) {
-      const { id } = await request.json();
-      const client = getSupabaseClient();
-      const { error } = await client.from(table).delete().eq("id", id);
-      if (error) return NextResponse.json({ error: error.message }, { status: 500 });
-      return NextResponse.json({ success: true });
-    },
-  };
+  pk?: string;
 }
 
-export { createAdminApi };
+export function createAdminApi(config: TableConfig) {
+  const { table, fields, pk = "id" } = config;
+
+  async function GET(req: NextRequest) {
+    const url = new URL(req.url);
+    const id = url.searchParams.get("id");
+    if (id) {
+      const item = getById(table, parseInt(id));
+      return NextResponse.json(item || null);
+    }
+    const data = getAll(table);
+    return NextResponse.json(data);
+  }
+
+  async function POST(req: NextRequest) {
+    const body = await req.json();
+    const { id, ...item } = body;
+    if (id) {
+      const updates: Record<string, unknown> = {};
+      for (const field of fields) {
+        if (item[field] !== undefined) updates[field] = item[field];
+      }
+      const result = update(table, parseInt(id), updates);
+      return NextResponse.json(result || { error: "not found" }, { status: result ? 200 : 404 });
+    }
+    const newItem = create(table, item as any);
+    return NextResponse.json(newItem, { status: 201 });
+  }
+
+  async function PUT(req: NextRequest) {
+    return POST(req);
+  }
+
+  async function DELETE(req: NextRequest) {
+    const body = await req.json();
+    const result = remove(table, body.id);
+    return NextResponse.json({ success: result });
+  }
+
+  return { GET, POST, PUT, DELETE };
+}

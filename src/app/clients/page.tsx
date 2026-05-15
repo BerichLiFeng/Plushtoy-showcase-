@@ -4,95 +4,77 @@ import { useState, useEffect } from "react";
 import Image from "next/image";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
-import { getSupabaseClient } from "@/storage/database/supabase-client";
-import { S3Storage } from "coze-coding-dev-sdk";
 
-const storage = new S3Storage();
-
-interface Client {
+interface Category {
   id: number;
   name: string;
-  logo_key: string;
+  slug: string;
   description: string;
-  website_url: string;
+  image_key: string;
 }
 
 export default function ClientsPage() {
-  const [clients, setClients] = useState<Client[]>([]);
+  const [clients, setClients] = useState<{ id: number; name: string; description: string; logo_key: string }[]>([]);
   const [imageUrls, setImageUrls] = useState<Record<string, string>>({});
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    async function fetchData() {
-      const client = getSupabaseClient();
-      const { data } = await client.from("clients").select("*").eq("is_active", true).order("sort_order");
-      if (data) {
-        setClients(data as Client[]);
-        const urlMap: Record<string, string> = {};
-        await Promise.all(
-          data.map(async (c) => {
-            if (c.logo_key) {
-              urlMap[c.logo_key] = await storage.generatePresignedUrl({ key: c.logo_key, expireTime: 86400 });
-            }
-          })
-        );
-        setImageUrls(urlMap);
-      }
-      setLoading(false);
+    async function load() {
+      try {
+        const data = await fetch("/api/public/clients").then((r) => r.json());
+        const items = Array.isArray(data) ? data : [];
+        setClients(items);
+        const keys = items.map((c: { logo_key: string }) => c.logo_key).filter(Boolean);
+        if (keys.length > 0) {
+          const { urls } = await fetch("/api/public/urls", {
+            method: "POST", headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ keys }),
+          }).then((r) => r.json());
+          setImageUrls(urls || {});
+        }
+      } catch (err) { console.error(err); }
+      finally { setLoading(false); }
     }
-    fetchData();
+    load();
   }, []);
 
-  if (loading) {
-    return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="w-8 h-8 border-2 border-primary/30 border-t-primary rounded-full animate-spin" />
-      </div>
-    );
-  }
+  if (loading) return <div className="min-h-screen flex items-center justify-center"><div className="w-8 h-8 border-2 border-primary/30 border-t-primary rounded-full animate-spin" /></div>;
 
   return (
     <div className="min-h-screen bg-background">
       <Navbar />
-
       <section className="relative pt-28 pb-16 md:pt-36 md:pb-20 section-padding bg-gradient-to-b from-primary/5 to-background">
         <div className="max-w-7xl mx-auto text-center">
           <span className="text-xs tracking-[0.3em] text-primary/60 uppercase font-medium">合作客户</span>
-          <h1 className="font-serif text-4xl md:text-5xl mt-4 text-foreground font-light">信赖我们的品牌</h1>
-          <p className="text-muted-foreground mt-4 max-w-lg mx-auto">
-            我们与众多知名品牌建立了长期稳定的合作关系，以品质赢得信赖
-          </p>
+          <h1 className="font-serif text-4xl md:text-5xl mt-4 text-foreground font-light">信赖我们的伙伴</h1>
+          <p className="text-muted-foreground mt-4 max-w-lg mx-auto">与众多知名品牌建立了长期稳定的合作关系</p>
         </div>
       </section>
-
-      <section className="py-16 section-padding">
+      <section className="py-16 md:py-24 section-padding">
         <div className="max-w-7xl mx-auto">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {clients.map((client) => (
-              <div key={client.id} className="bg-white rounded-2xl p-8 shadow-sm border border-border/30 hover:shadow-md transition-all duration-300">
-                <div className="relative h-20 mb-4 flex items-center justify-center">
+          {clients.length === 0 ? (
+            <div className="text-center py-20 text-muted-foreground">暂无客户数据</div>
+          ) : (
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
+              {clients.map((client) => (
+                <div key={client.id} className="bg-white rounded-2xl p-6 border border-border/30 text-center hover:shadow-sm transition-all">
                   {client.logo_key && imageUrls[client.logo_key] ? (
-                    <Image
-                      src={imageUrls[client.logo_key]}
-                      alt={client.name}
-                      width={120}
-                      height={60}
-                      className="object-contain"
-                    />
+                    <div className="relative w-20 h-20 mx-auto mb-4">
+                      <Image src={imageUrls[client.logo_key]} alt={client.name} fill className="object-contain" />
+                    </div>
                   ) : (
-                    <span className="text-xl font-medium text-foreground/40">{client.name}</span>
+                    <div className="w-20 h-20 mx-auto mb-4 bg-primary/5 rounded-full flex items-center justify-center">
+                      <span className="font-serif text-2xl text-primary/30">{client.name[0]}</span>
+                    </div>
                   )}
+                  <h3 className="text-sm font-medium text-foreground/90">{client.name}</h3>
+                  {client.description && <p className="text-xs text-muted-foreground mt-2">{client.description}</p>}
                 </div>
-                <h3 className="text-center font-medium text-foreground mb-2">{client.name}</h3>
-                {client.description && (
-                  <p className="text-sm text-muted-foreground text-center leading-relaxed">{client.description}</p>
-                )}
-              </div>
-            ))}
-          </div>
+              ))}
+            </div>
+          )}
         </div>
       </section>
-
       <Footer />
     </div>
   );

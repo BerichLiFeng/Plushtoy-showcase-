@@ -1,0 +1,26 @@
+[
+  {
+    "name": "Luxury Kids Co.",
+    "logo_key": "",
+    "description": "欧洲高端儿童生活方式品牌",
+    "sort_order": 1,
+    "is_active": true,
+    "id": 1
+  },
+  {
+    "name": "Petit Dreams",
+    "logo_key": "",
+    "description": "法国知名母婴品牌",
+    "sort_order": 2,
+    "is_active": true,
+    "id": 2
+  },
+  {
+    "name": "Royal Gift",
+    "logo_key": "",
+    "description": "中东皇室礼品供应商",
+    "sort_order": 3,
+    "is_active": true,
+    "id": 3
+  }
+]

@@ -1,0 +1,62 @@
+[
+  {
+    "category_id": 1,
+    "name": "芭蕾舞裙小熊",
+    "description": "精致芭蕾舞裙搭配柔软小熊，梦幻优雅",
+    "price": "¥388",
+    "image_keys": "",
+    "is_active": true,
+    "sort_order": 1,
+    "id": 1
+  },
+  {
+    "category_id": 1,
+    "name": "天鹅湖小兔",
+    "description": "经典天鹅湖造型，丝绒质感",
+    "price": "¥428",
+    "image_keys": "",
+    "is_active": true,
+    "sort_order": 2,
+    "id": 2
+  },
+  {
+    "category_id": 2,
+    "name": "经典泰迪熊",
+    "description": "高级仿羊绒面料，经典复古造型",
+    "price": "¥298",
+    "image_keys": "",
+    "is_active": true,
+    "sort_order": 1,
+    "id": 3
+  },
+  {
+    "category_id": 2,
+    "name": "法式复古兔",
+    "description": "法式浪漫配色，手工刺绣细节",
+    "price": "¥358",
+    "image_keys": "",
+    "is_active": true,
+    "sort_order": 2,
+    "id": 4
+  },
+  {
+    "category_id": 3,
+    "name": "新生儿安抚小熊",
+    "description": "超柔短毛绒，安全可啃咬",
+    "price": "¥168",
+    "image_keys": "",
+    "is_active": true,
+    "sort_order": 1,
+    "id": 5
+  },
+  {
+    "category_id": 3,
+    "name": "婴儿梦幻摇铃",
+    "description": "内置摇铃，促进听觉发育",
+    "price": "¥128",
+    "image_keys": "",
+    "is_active": true,
+    "sort_order": 2,
+    "id": 6
+  }
+]

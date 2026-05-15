@@ -1,10 +1,14 @@
 import { createServer } from 'http';
 import { parse } from 'url';
 import next from 'next';
+import { seedInitialData } from './lib/seed';
 
 const dev = process.env.COZE_PROJECT_ENV !== 'PROD';
 const hostname = process.env.HOSTNAME || 'localhost';
 const port = parseInt(process.env.PORT || '5000', 10);
+
+// Seed initial data on startup
+seedInitialData();
 
 // Create Next.js app
 const app = next({ dev, hostname, port });

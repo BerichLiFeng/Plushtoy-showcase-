@@ -1,0 +1,20 @@
+[
+  {
+    "title": "高奢玩偶定制专家",
+    "subtitle": "从设计到成品，一站式玩偶制造服务",
+    "image_key": "",
+    "link_url": "",
+    "sort_order": 1,
+    "is_active": true,
+    "id": 1
+  },
+  {
+    "title": "自有品牌 · 梦幻芭蕾风",
+    "subtitle": "优雅与梦幻的完美融合",
+    "image_key": "",
+    "link_url": "/products/ballet",
+    "sort_order": 2,
+    "is_active": true,
+    "id": 2
+  }
+]

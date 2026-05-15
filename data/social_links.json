@@ -1,0 +1,23 @@
+[
+  {
+    "platform_name": "Instagram",
+    "url": "https://instagram.com",
+    "icon": "instagram",
+    "sort_order": 1,
+    "id": 1
+  },
+  {
+    "platform_name": "Pinterest",
+    "url": "https://pinterest.com",
+    "icon": "pinterest",
+    "sort_order": 2,
+    "id": 2
+  },
+  {
+    "platform_name": "Website",
+    "url": "https://example.com",
+    "icon": "globe",
+    "sort_order": 3,
+    "id": 3
+  }
+]

@@ -1,0 +1,20 @@
+[
+  {
+    "title": "10000只芭蕾小熊定制",
+    "description": "为法国奢侈品牌定制芭蕾主题玩偶，从设计到出货仅用45天，获得客户高度赞誉。",
+    "client_name": "Petit Dreams",
+    "image_keys": "",
+    "is_active": true,
+    "sort_order": 1,
+    "id": 1
+  },
+  {
+    "title": "中东皇室新生儿礼盒",
+    "description": "为中东皇室定制的高端新生儿玩偶礼盒，包含12款不同造型的安抚玩偶。",
+    "client_name": "Royal Gift",
+    "image_keys": "",
+    "is_active": true,
+    "sort_order": 2,
+    "id": 2
+  }
+]

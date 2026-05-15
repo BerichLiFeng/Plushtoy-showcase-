@@ -1,0 +1,29 @@
+[
+  {
+    "name": "梦幻芭蕾风",
+    "slug": "ballet",
+    "description": "优雅灵动的芭蕾主题玩偶系列",
+    "image_key": "",
+    "sort_order": 1,
+    "is_active": true,
+    "id": 1
+  },
+  {
+    "name": "经典毛绒布艺",
+    "slug": "classic",
+    "description": "经典传承的毛绒布艺玩偶系列",
+    "image_key": "",
+    "sort_order": 2,
+    "is_active": true,
+    "id": 2
+  },
+  {
+    "name": "新生儿玩偶",
+    "slug": "newborn",
+    "description": "专为新生儿打造的柔软安全玩偶系列",
+    "image_key": "",
+    "sort_order": 3,
+    "is_active": true,
+    "id": 3
+  }
+]

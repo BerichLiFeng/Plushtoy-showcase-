@@ -1,0 +1,26 @@
+[
+  {
+    "title": "ISO 9001 质量管理体系",
+    "description": "国际标准化组织质量管理体系认证",
+    "image_key": "",
+    "is_active": true,
+    "sort_order": 1,
+    "id": 1
+  },
+  {
+    "title": "EN71 欧洲玩具安全标准",
+    "description": "符合欧盟玩具安全指令要求",
+    "image_key": "",
+    "is_active": true,
+    "sort_order": 2,
+    "id": 2
+  },
+  {
+    "title": "ASTM F963 美国玩具安全标准",
+    "description": "通过美国玩具安全标准检测",
+    "image_key": "",
+    "is_active": true,
+    "sort_order": 3,
+    "id": 3
+  }
+]

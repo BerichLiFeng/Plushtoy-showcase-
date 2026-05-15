@@ -1,23 +1,32 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { getSupabaseClient } from "@/storage/database/supabase-client";
 import { useRouter } from "next/navigation";
 
+interface CompanyData {
+  id?: number;
+  name: string;
+  slogan: string;
+  description: string;
+  about_images: string;
+  values: string;
+}
+
 export default function AdminCompanyPage() {
-  const [content, setContent] = useState("");
-  const [title, setTitle] = useState("");
-  const [saving, setSaving] = useState(false);
+  const [form, setForm] = useState<CompanyData>({ name: "", slogan: "", description: "", about_images: "", values: "" });
   const [loading, setLoading] = useState(true);
+  const [saving, setSaving] = useState(false);
   const router = useRouter();
 
   useEffect(() => {
     async function load() {
-      const client = getSupabaseClient();
-      const { data } = await client.from("company_info").select("*").limit(1);
-      if (data && data.length > 0) {
-        setTitle(data[0].title || "");
-        setContent(data[0].content || "");
+      try {
+        const res = await fetch("/api/admin/company");
+        const data = await res.json();
+        if (data?.id) setForm(data);
+        else if (Array.isArray(data) && data.length > 0) setForm(data[0]);
+      } catch (e) {
+        console.error(e);
       }
       setLoading(false);
     }
@@ -27,13 +36,7 @@ export default function AdminCompanyPage() {
   const handleSave = async () => {
     setSaving(true);
     try {
-      const client = getSupabaseClient();
-      const { data: existing } = await client.from("company_info").select("id").limit(1);
-      if (existing && existing.length > 0) {
-        await client.from("company_info").update({ title, content }).eq("id", existing[0].id);
-      } else {
-        await client.from("company_info").insert({ title, content });
-      }
+      await fetch("/api/admin/company", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(form) });
       alert("保存成功！");
     } catch (err) {
       console.error(err);
@@ -50,30 +53,22 @@ export default function AdminCompanyPage() {
       <h1 className="text-lg font-medium text-gray-900 mb-6">公司介绍</h1>
       <div className="bg-white rounded-xl border border-gray-200 p-6 space-y-4 max-w-3xl">
         <div>
-          <label className="block text-xs font-medium text-gray-500 mb-1.5">标题</label>
-          <input
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
-            className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary"
-            placeholder="输入公司标题"
-          />
+          <label className="block text-xs font-medium text-gray-500 mb-1.5">公司名称</label>
+          <input value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary/30" />
         </div>
         <div>
-          <label className="block text-xs font-medium text-gray-500 mb-1.5">详细介绍（支持 HTML）</label>
-          <textarea
-            value={content}
-            onChange={(e) => setContent(e.target.value)}
-            className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary min-h-[300px] font-mono"
-            placeholder="输入公司介绍内容，支持 HTML 标签"
-          />
+          <label className="block text-xs font-medium text-gray-500 mb-1.5">品牌标语</label>
+          <input value={form.slogan} onChange={(e) => setForm({ ...form, slogan: e.target.value })} className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary/30" />
         </div>
-        <button
-          onClick={handleSave}
-          disabled={saving}
-          className="px-4 py-2 bg-primary text-white rounded-lg text-sm font-medium hover:bg-primary/90 transition-colors disabled:opacity-50"
-        >
-          {saving ? "保存中..." : "保存"}
-        </button>
+        <div>
+          <label className="block text-xs font-medium text-gray-500 mb-1.5">核心理念</label>
+          <input value={form.values} onChange={(e) => setForm({ ...form, values: e.target.value })} className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary/30" />
+        </div>
+        <div>
+          <label className="block text-xs font-medium text-gray-500 mb-1.5">公司介绍</label>
+          <textarea value={form.description} onChange={(e) => setForm({ ...form, description: e.target.value })} className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary/30 min-h-[200px]" />
+        </div>
+        <button onClick={handleSave} disabled={saving} className="px-4 py-2 bg-primary text-white rounded-lg text-sm font-medium hover:bg-primary/90 transition-colors disabled:opacity-50">{saving ? "保存中..." : "保存"}</button>
       </div>
     </div>
   );

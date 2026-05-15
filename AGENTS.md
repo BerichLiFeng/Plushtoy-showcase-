@@ -40,7 +40,52 @@
 - 安装所有依赖：`pnpm install`
 - 移除依赖：`pnpm remove <package>`
 
-## 开发规范
+## 数据存储
+
+- 使用 JSON 文件存储（`/data/*.json`），通过 `src/lib/json-db.ts` 工具库访问
+- 启动时自动通过 `src/lib/seed.ts` 填充初始示例数据
+- 图片/文件上传：通过 `/api/admin/upload` 使用 S3Storage 存储
+
+## API 路由
+
+### 公共接口（无需鉴权）
+| 接口 | 返回 | 说明 |
+|------|------|------|
+| `GET /api/public/banners` | 数组 | 首页Banner |
+| `GET /api/public/company` | 对象 | 公司介绍 |
+| `GET /api/public/business` | 数组 | 业务板块 |
+| `GET /api/public/categories` | 数组 | 产品分类 |
+| `GET /api/public/products` | 数组 | 产品列表 |
+| `GET /api/public/clients` | 数组 | 合作客户 |
+| `GET /api/public/cases` | 数组 | 合作案例 |
+| `GET /api/public/certifications` | 数组 | 工厂资质 |
+| `GET /api/public/exhibitions` | 数组 | 展会集锦 |
+| `GET /api/public/contacts` | 对象 | 联系方式 |
+| `GET /api/public/social` | 数组 | 社媒链接 |
+
+### 管理接口（需登录）
+- `POST /api/admin/login` — 登录（密码: `dreamdoll888`）
+- 所有板块均有 CRUD：`GET/POST/PUT/DELETE /api/admin/{板块名}`
+- `POST /api/admin/upload` — 文件上传（返回 key）
+
+## 后台管理入口
+
+- 访问 `/admin/login` 登录（密码: `dreamdoll888`）
+- 管理后台支持：公司介绍、业务板块、产品分类、产品管理、合作客户、合作案例、工厂资质、展会集锦、联系方式、社媒链接
+
+## 页面路由
+
+| 路径 | 页面 |
+|------|------|
+| `/` | 首页（Banner + 产品展示 + 客户 + 案例） |
+| `/about` | 公司介绍 |
+| `/business` | 业务板块 |
+| `/products/[slug]` | 产品线（按分类展示） |
+| `/clients` | 合作客户 |
+| `/cases` | 合作案例 |
+| `/certifications` | 工厂资质 |
+| `/exhibitions` | 展会集锦 |
+| `/contact` | 联系方式 |
 
 ### 编码规范
 

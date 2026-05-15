@@ -35,16 +35,6 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="zh-CN" suppressHydrationWarning>
-      <head>
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `
-              ReactDOM.preconnect && ReactDOM.preconnect("https://fonts.googleapis.cn");
-              ReactDOM.preconnect && ReactDOM.preconnect("https://fonts.gstatic.cn");
-            `,
-          }}
-        />
-      </head>
       <body className="antialiased">
         <Inspector />
         {children}

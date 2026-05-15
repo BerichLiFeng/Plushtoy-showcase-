@@ -1,0 +1,29 @@
+[
+  {
+    "title": "OEM/ODM 加工服务",
+    "description": "提供从概念设计、样品开发到批量生产的全流程玩偶加工服务，严格品控，交期保障。",
+    "icon": "Factory",
+    "image_key": "",
+    "sort_order": 1,
+    "is_active": true,
+    "id": 1
+  },
+  {
+    "title": "品牌定制开发",
+    "description": "根据品牌定位量身打造专属玩偶系列，从材质选择到工艺细节，全方位定制。",
+    "icon": "Wand2",
+    "image_key": "",
+    "sort_order": 2,
+    "is_active": true,
+    "id": 2
+  },
+  {
+    "title": "礼品渠道供应",
+    "description": "为高端酒店、奢侈品品牌、母婴品牌等提供礼品玩偶批量供应服务。",
+    "icon": "Gift",
+    "image_key": "",
+    "sort_order": 3,
+    "is_active": true,
+    "id": 3
+  }
+]

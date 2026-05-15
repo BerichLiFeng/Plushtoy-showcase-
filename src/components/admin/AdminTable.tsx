@@ -2,10 +2,7 @@
 
 import { useState } from "react";
 import Image from "next/image";
-import { S3Storage } from "coze-coding-dev-sdk";
-import { Plus, Pencil, Trash2, GripVertical, Loader2 } from "lucide-react";
-
-const storage = new S3Storage();
+import { Plus, Pencil, Trash2, Loader2 } from "lucide-react";
 
 export interface TableField {
   key: string;
@@ -49,9 +46,11 @@ export function AdminTable<T extends Record<string, unknown>>({
     const fieldName = uploadingFile!;
     setSaving(true);
     try {
-      const key = `admin/${Date.now()}-${file.name}`;
-      await storage.upload({ key, body: file });
-      setForm((prev) => ({ ...prev, [fieldName]: key }));
+      const formData = new FormData();
+      formData.append("file", file);
+      const res = await fetch("/api/admin/upload", { method: "POST", body: formData });
+      const data = await res.json();
+      setForm((prev) => ({ ...prev, [fieldName]: data.key || data.url }));
     } catch (err) {
       console.error("上传失败", err);
     } finally {
