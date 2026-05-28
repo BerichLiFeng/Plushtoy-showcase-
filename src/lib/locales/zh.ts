@@ -4,6 +4,7 @@ const zh: Record<string, any> = {
     about: "公司介绍",
     business: "业务板块",
     products: "产品展示",
+    blog: "博客",
     clients: "合作客户",
     cases: "合作案例",
     certifications: "工厂资质",

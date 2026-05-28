@@ -12,6 +12,7 @@ const navLinks = (lang: Lang) => [
   { href: "/about", label: t(lang, "nav.about") },
   { href: "/business", label: t(lang, "nav.business") },
   { href: "/products/ballet", label: t(lang, "nav.products") },
+  { href: "/blog", label: t(lang, "nav.blog") },
   { href: "/clients", label: t(lang, "nav.clients") },
   { href: "/cases", label: t(lang, "nav.cases") },
   { href: "/certifications", label: t(lang, "nav.certifications") },

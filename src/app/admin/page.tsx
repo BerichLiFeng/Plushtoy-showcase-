@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import {
   FileText, Briefcase, Layers, Package, Users,
-  ImageIcon, Shield, Calendar, Mail, Link2, ArrowRight
+  ImageIcon, Shield, Calendar, Mail, Link2, ArrowRight, Newspaper
 } from "lucide-react";
 
 const cards = [
@@ -14,6 +14,7 @@ const cards = [
   { href: "/admin/products", label: "产品管理", icon: Package, color: "bg-amber-50 text-amber-600" },
   { href: "/admin/clients", label: "合作客户", icon: Users, color: "bg-green-50 text-green-600" },
   { href: "/admin/cases", label: "合作案例", icon: ImageIcon, color: "bg-indigo-50 text-indigo-600" },
+  { href: "/admin/blog", label: "博客管理", icon: Newspaper, color: "bg-sky-50 text-sky-600" },
   { href: "/admin/certifications", label: "工厂资质", icon: Shield, color: "bg-red-50 text-red-600" },
   { href: "/admin/exhibitions", label: "展会集锦", icon: Calendar, color: "bg-teal-50 text-teal-600" },
   { href: "/admin/contacts", label: "联系方式", icon: Mail, color: "bg-cyan-50 text-cyan-600" },

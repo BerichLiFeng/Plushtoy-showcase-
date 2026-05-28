@@ -7,7 +7,7 @@ import { cn } from "@/lib/utils";
 import {
   LayoutDashboard, FileText, Briefcase, Layers, Package,
   Users, ImageIcon, Shield, Calendar, Mail, Link2,
-  LogOut, Menu, X, PanelRightOpen
+  LogOut, Menu, X, PanelRightOpen, Newspaper
 } from "lucide-react";
 
 const sidebarItems = [
@@ -18,6 +18,7 @@ const sidebarItems = [
   { href: "/admin/products", label: "产品管理", icon: Package },
   { href: "/admin/clients", label: "合作客户", icon: Users },
   { href: "/admin/cases", label: "合作案例", icon: ImageIcon },
+  { href: "/admin/blog", label: "博客管理", icon: Newspaper },
   { href: "/admin/certifications", label: "工厂资质", icon: Shield },
   { href: "/admin/exhibitions", label: "展会集锦", icon: Calendar },
   { href: "/admin/contacts", label: "联系方式", icon: Mail },

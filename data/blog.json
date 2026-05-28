@@ -1,0 +1,41 @@
+[
+  {
+    "id": 1,
+    "title": "The Art of Ballet Doll Design: Where Elegance Meets Craftsmanship",
+    "slug": "art-of-ballet-doll-design",
+    "excerpt": "Discover the intricate process behind creating our signature ballet-inspired doll collection, from concept sketch to final stitch.",
+    "content": "<p>At Dream Doll, every ballet doll begins as a story waiting to be told. Our design process starts with hours of studying real ballet movements—the graceful arch of a dancer's back, the delicate positioning of hands, the ethereal quality of a tutu in motion.</p><p>Our master artisans then translate these observations into doll forms, selecting fabrics that capture the lightness of a ballet costume. From hand-stitched lace details to carefully positioned limbs that mirror dance poses, each doll embodies the spirit of dance.</p><p>The result is not just a toy, but a miniature work of art that brings the magic of ballet into any space.</p>",
+    "author": "Dream Doll Studio",
+    "image_key": "",
+    "category": "products",
+    "published_at": "2025-05-20",
+    "is_active": true,
+    "sort_order": 1
+  },
+  {
+    "id": 2,
+    "title": "OEM vs ODM: Choosing the Right Doll Manufacturing Partner",
+    "slug": "oem-vs-odm-doll-manufacturing",
+    "excerpt": "Understanding the difference between OEM and ODM doll manufacturing and how to choose the best approach for your brand.",
+    "content": "<p>When entering the world of custom doll manufacturing, two terms frequently arise: OEM (Original Equipment Manufacturing) and ODM (Original Design Manufacturing). Understanding the distinction is crucial for making the right choice for your brand.</p><p><strong>OEM (Original Equipment Manufacturing)</strong><br/>In an OEM arrangement, you provide the design specifications, and we manufacture according to your exact requirements. This is ideal if you have existing doll designs or specific creative visions that you want to bring to life with professional manufacturing expertise.</p><p><strong>ODM (Original Design Manufacturing)</strong><br/>With ODM, our design team develops the product based on your brand identity and target market. We leverage our expertise in materials, safety standards, and market trends to create unique doll designs that align with your brand.</p><p>At Dream Doll, we offer both OEM and ODM services, allowing you to choose the path that best suits your business needs.</p>",
+    "author": "Dream Doll Studio",
+    "image_key": "",
+    "category": "industry",
+    "published_at": "2025-05-10",
+    "is_active": true,
+    "sort_order": 2
+  },
+  {
+    "id": 3,
+    "title": "Dream Doll at Frankfurt Gift Fair 2025: A Resounding Success",
+    "slug": "frankfurt-gift-fair-2025",
+    "excerpt": "Our participation in the 2025 Frankfurt Gift Fair marked a milestone in expanding our global presence.",
+    "content": "<p>The Frankfurt Gift Fair 2025 was an incredible experience for the Dream Doll team. Our booth, featuring the latest ballet and newborn collections, attracted visitors from over 30 countries.</p><p>We were particularly thrilled by the response to our limited-edition ballet series, which garnered significant interest from European luxury boutiques and department stores. Several major partnership discussions were initiated during the fair, which we are now actively pursuing.</p><p>Thank you to everyone who visited our booth. Your enthusiasm and appreciation for our craft inspire us to continue pushing the boundaries of doll design.</p>",
+    "author": "Dream Doll Team",
+    "image_key": "",
+    "category": "news",
+    "published_at": "2025-04-28",
+    "is_active": true,
+    "sort_order": 3
+  }
+]

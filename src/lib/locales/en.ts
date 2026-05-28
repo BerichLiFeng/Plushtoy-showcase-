@@ -4,6 +4,7 @@ const en: Record<string, any> = {
     about: "About Us",
     business: "Services",
     products: "Products",
+    blog: "Blog",
     clients: "Clients",
     cases: "Cases",
     certifications: "Certifications",
