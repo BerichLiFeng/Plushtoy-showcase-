@@ -19,7 +19,6 @@ interface Product {
   name: string;
   description: string;
   image_keys: string;
-  price: string;
   category_name?: string;
   category_slug?: string;
 }
@@ -223,9 +222,6 @@ export default function HomePage() {
                   <h3 className="font-serif text-sm text-foreground/90 group-hover:text-primary transition-colors">
                     {product.name}
                   </h3>
-                  {product.price && (
-                    <p className="text-xs text-muted-foreground mt-1">{product.price}</p>
-                  )}
                 </Link>
               ))}
             </div>

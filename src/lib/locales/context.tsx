@@ -19,7 +19,7 @@ const LangContext = createContext<LangContextType>({
 });
 
 export function LangProvider({ children }: { children: ReactNode }) {
-  const [lang, setLangState] = useState<Lang>("zh");
+  const [lang, setLangState] = useState<Lang>("en");
   const setLang = useCallback((l: Lang) => setLangState(l), []);
   return (
     <LangContext.Provider value={{ lang, setLang }}>

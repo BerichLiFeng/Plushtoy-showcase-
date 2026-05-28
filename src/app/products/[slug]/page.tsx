@@ -5,7 +5,7 @@ import { useParams } from "next/navigation";
 import { useLang, t } from "@/lib/locales/context";
 
 interface Category { id: number; name: string; slug: string; description: string; }
-interface Product { id: number; category_id: number; name: string; description: string; price: string; image_keys: string; }
+interface Product { id: number; category_id: number; name: string; description: string; image_keys: string; }
 
 export default function ProductCategoryPage() {
   const { lang } = useLang();
@@ -58,8 +58,7 @@ export default function ProductCategoryPage() {
                   </div>
                   <div className="p-6">
                     <h3 className="font-serif text-lg text-foreground mb-2">{product.name}</h3>
-                    <p className="text-muted-foreground text-sm mb-3 leading-relaxed">{product.description}</p>
-                    <p className="text-primary font-medium">{product.price}</p>
+                    <p className="text-muted-foreground text-sm leading-relaxed">{product.description}</p>
                   </div>
                 </div>
               ))}
