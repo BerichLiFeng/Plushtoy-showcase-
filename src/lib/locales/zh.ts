@@ -42,6 +42,8 @@ const zh: Record<string, any> = {
     slogan: "让每一只玩偶都成为值得珍藏的艺术品",
     description: "我们是一家拥有多年经验的高端玩偶制造工厂，专注于为全球品牌提供OEM/ODM玩偶加工服务，同时运营自有高奢玩偶品牌。从梦幻芭蕾风到经典毛绒布艺，再到新生儿玩偶，我们用匠心工艺和极致细节，传递高奢梦幻的玩偶理念。",
     values: "匠心工艺 · 梦幻设计 · 品质至上",
+    certSubtitle: "国际认证，品质保证",
+    exhibSubtitle: "全球舞台，展示梦幻魅力",
   },
   business: {
     title: "业务板块",

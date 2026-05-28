@@ -42,6 +42,8 @@ const en: Record<string, any> = {
     slogan: "Making Every Doll a Treasured Keepsake",
     description: "We are a high-end doll manufacturing factory with years of experience, specializing in OEM/ODM doll processing services for global brands while operating our own luxury doll brand. From dreamy ballet styles to classic plush fabrics to newborn dolls, we convey a luxurious and dreamy doll philosophy through artisan craftsmanship and ultimate attention to detail.",
     values: "Artisan Craft · Dreamy Design · Quality First",
+    certSubtitle: "International Standards, Quality Assured",
+    exhibSubtitle: "Global Stage, Dreamy Presence",
   },
   business: {
     title: "Our Services",

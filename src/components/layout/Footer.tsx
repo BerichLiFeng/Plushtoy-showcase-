@@ -45,7 +45,7 @@ export default function Footer() {
     { href: "/about", label: t(lang, "nav.about") },
     { href: "/business", label: t(lang, "nav.business") },
     { href: "/products/ballet", label: t(lang, "nav.products") },
-    { href: "/cases", label: t(lang, "nav.cases") },
+    { href: "/blog", label: t(lang, "nav.blog") },
   ];
 
   return (
