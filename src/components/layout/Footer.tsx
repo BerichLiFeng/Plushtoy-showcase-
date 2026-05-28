@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { Instagram, Globe, PinIcon } from "lucide-react";
+import { useLang, t } from "@/lib/locales/context";
 
 interface SocialLink {
   id: number;
@@ -24,6 +25,7 @@ const iconMap: Record<string, React.ReactNode> = {
 };
 
 export default function Footer() {
+  const { lang } = useLang();
   const [socialLinks, setSocialLinks] = useState<SocialLink[]>([]);
 
   useEffect(() => {
@@ -38,6 +40,13 @@ export default function Footer() {
     }
     fetchSocial();
   }, []);
+
+  const footerLinks = [
+    { href: "/about", label: t(lang, "nav.about") },
+    { href: "/business", label: t(lang, "nav.business") },
+    { href: "/products/ballet", label: t(lang, "nav.products") },
+    { href: "/cases", label: t(lang, "nav.cases") },
+  ];
 
   return (
     <footer className="bg-gradient-to-b from-background to-primary/5 border-t border-border/50">
@@ -54,22 +63,17 @@ export default function Footer() {
               </span>
             </Link>
             <p className="text-sm text-muted-foreground leading-relaxed max-w-xs">
-              以匠心工艺打造每一只玩偶，传递高奢梦幻的玩偶理念。让每一个玩偶都成为值得珍藏的艺术品。
+              {t(lang, "footer.desc")}
             </p>
           </div>
 
           {/* Quick links */}
           <div>
             <h4 className="font-serif text-sm font-semibold text-foreground mb-4 tracking-wider uppercase">
-              快速导航
+              {t(lang, "footer.quickLinks")}
             </h4>
             <ul className="space-y-3">
-              {[
-                { href: "/about", label: "品牌故事" },
-                { href: "/business", label: "业务板块" },
-                { href: "/products/ballet", label: "产品系列" },
-                { href: "/cases", label: "合作案例" },
-              ].map((link) => (
+              {footerLinks.map((link) => (
                 <li key={link.href}>
                   <Link
                     href={link.href}
@@ -82,66 +86,42 @@ export default function Footer() {
             </ul>
           </div>
 
-          {/* Products */}
+          {/* Contact */}
           <div>
             <h4 className="font-serif text-sm font-semibold text-foreground mb-4 tracking-wider uppercase">
-              产品系列
+              {t(lang, "footer.contact")}
             </h4>
-            <ul className="space-y-3">
-              {[
-                { href: "/products/ballet", label: "梦幻芭蕾风" },
-                { href: "/products/classic", label: "经典毛绒布艺" },
-                { href: "/products/newborn", label: "新生儿玩偶" },
-              ].map((link) => (
-                <li key={link.href}>
-                  <Link
-                    href={link.href}
-                    className="text-sm text-muted-foreground hover:text-primary transition-colors"
-                  >
-                    {link.label}
-                  </Link>
-                </li>
-              ))}
+            <ul className="space-y-3 text-sm text-muted-foreground">
+              <li>{t(lang, "contact.email")}: hello@dollstudio.com</li>
+              <li>{t(lang, "contact.phone")}: +86 400-888-9999</li>
             </ul>
           </div>
 
           {/* Social */}
           <div>
             <h4 className="font-serif text-sm font-semibold text-foreground mb-4 tracking-wider uppercase">
-              关注我们
+              {t(lang, "footer.follow")}
             </h4>
-            <div className="flex gap-3 mb-6">
-              {socialLinks.map((link) => {
-                const iconKey = link.platform_name.toLowerCase();
-                return (
-                  <a
-                    key={link.id}
-                    href={link.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="w-9 h-9 flex items-center justify-center rounded-full bg-primary/10 text-primary hover:bg-primary hover:text-primary-foreground transition-all duration-300"
-                    title={link.platform_name}
-                  >
-                    {iconMap[iconKey] || <Globe className="w-4 h-4" />}
-                  </a>
-                );
-              })}
+            <div className="flex items-center gap-3">
+              {socialLinks.map((link) => (
+                <a
+                  key={link.id}
+                  href={link.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-9 h-9 flex items-center justify-center rounded-full bg-primary/10 text-primary hover:bg-primary hover:text-white transition-all duration-300"
+                  title={link.platform_name}
+                >
+                  {iconMap[link.icon] || <Globe className="w-4 h-4" />}
+                </a>
+              ))}
             </div>
-            <p className="text-xs text-muted-foreground">
-              探索更多梦幻玩偶世界
-            </p>
           </div>
         </div>
-      </div>
 
-      {/* Bottom bar */}
-      <div className="border-t border-border/50">
-        <div className="max-w-7xl mx-auto px-4 md:px-8 py-4 flex flex-col md:flex-row items-center justify-between gap-2">
-          <p className="text-xs text-muted-foreground">
-            &copy; {new Date().getFullYear()} Dream Doll. All rights reserved.
-          </p>
-          <p className="text-xs text-muted-foreground">
-            高奢梦幻玩偶品牌 · 匠心工艺
+        <div className="mt-12 pt-8 border-t border-border/30 text-center">
+          <p className="text-xs text-muted-foreground tracking-wider">
+            &copy; {new Date().getFullYear()} Dream Doll. {t(lang, "footer.rights")}
           </p>
         </div>
       </div>

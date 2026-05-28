@@ -1,12 +1,10 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
-import Image from "next/image";
 import Link from "next/link";
-import Navbar from "@/components/layout/Navbar";
-import Footer from "@/components/layout/Footer";
 import { cn } from "@/lib/utils";
 import { ChevronLeft, ChevronRight, ArrowRight } from "lucide-react";
+import { useLang, t } from "@/lib/locales/context";
 
 interface Banner {
   id: number;
@@ -20,7 +18,7 @@ interface Product {
   id: number;
   name: string;
   description: string;
-  image_keys: string[];
+  image_keys: string;
   price: string;
   category_name?: string;
   category_slug?: string;
@@ -37,7 +35,7 @@ interface CaseItem {
   title: string;
   description: string;
   client_name?: string;
-  image_keys?: string[];
+  image_keys: string;
 }
 
 interface CompanyInfo {
@@ -48,16 +46,17 @@ interface CompanyInfo {
 }
 
 export default function HomePage() {
+  const { lang } = useLang();
   const [banners, setBanners] = useState<Banner[]>([]);
   const [products, setProducts] = useState<Product[]>([]);
   const [clients, setClients] = useState<Client[]>([]);
   const [cases, setCases] = useState<CaseItem[]>([]);
   const [company, setCompany] = useState<CompanyInfo | null>(null);
-  // Image URL resolving (simplified - shows placeholder until images uploaded)
-  const imageUrls: Record<string, string> = {};
   const [currentBanner, setCurrentBanner] = useState(0);
   const [loading, setLoading] = useState(true);
   const bannerTimer = useRef<ReturnType<typeof setInterval> | null>(null);
+
+  const getPlaceholder = () => "🧸";
 
   useEffect(() => {
     async function fetchData() {
@@ -83,7 +82,6 @@ export default function HomePage() {
     fetchData();
   }, []);
 
-  // Banner auto-play
   useEffect(() => {
     if (banners.length <= 1) return;
     bannerTimer.current = setInterval(() => {
@@ -104,8 +102,6 @@ export default function HomePage() {
 
   return (
     <div className="min-h-screen bg-background">
-      <Navbar />
-
       {/* ==================== HERO / BANNER ==================== */}
       <section className="relative h-screen min-h-[600px] max-h-[900px] overflow-hidden">
         {banners.length > 0 ? (
@@ -118,15 +114,6 @@ export default function HomePage() {
                   idx === currentBanner ? "opacity-100 scale-100" : "opacity-0 scale-105"
                 )}
               >
-                {imageUrls[banner.image_key] && (
-                  <Image
-                    src={imageUrls[banner.image_key]}
-                    alt={banner.title || ""}
-                    fill
-                    className="object-cover"
-                    priority={idx === 0}
-                  />
-                )}
                 <div className="absolute inset-0 bg-gradient-to-b from-black/30 via-black/20 to-black/50" />
                 <div className="absolute inset-0 flex items-center justify-center">
                   <div className="text-center text-white max-w-3xl px-4">
@@ -177,50 +164,48 @@ export default function HomePage() {
               <h1 className="font-serif text-4xl md:text-6xl text-primary font-light mb-4">
                 Dream Doll
               </h1>
-              <p className="text-muted-foreground text-sm tracking-widest uppercase">高奢梦幻玩偶品牌</p>
+              <p className="text-muted-foreground text-sm tracking-widest uppercase">{t(lang, "home.brand_tagline")}</p>
             </div>
           </div>
         )}
       </section>
 
-      {/* ==================== 品牌理念 ==================== */}
-      <section className="py-20 md:py-28 section-padding bg-gradient-to-b from-white to-primary/[0.02]">
+      {/* ==================== Brand Philosophy ==================== */}
+      <section className="py-20 md:py-28 px-4 md:px-8 bg-gradient-to-b from-white to-primary/[0.02]">
         <div className="max-w-7xl mx-auto">
           <div className="grid md:grid-cols-2 gap-12 md:gap-16 items-center">
-            <div className={cn("space-y-6", company?.image_key && imageUrls[company.image_key] ? "order-2 md:order-1" : "order-1")}>
-              <span className="text-xs tracking-[0.3em] text-primary/60 uppercase font-medium">品牌理念</span>
+            <div className="space-y-6">
+              <span className="text-xs tracking-[0.3em] text-primary/60 uppercase font-medium">{t(lang, "home.philosophy")}</span>
               <h2 className="font-serif text-3xl md:text-4xl text-foreground font-light leading-tight">
-                {company?.title || "传递梦幻 · 珍藏美好"}
+                {t(lang, "home.philosophy_title")}
               </h2>
               <div className="w-12 h-px bg-primary/30" />
               <p className="text-muted-foreground leading-relaxed text-sm">
-                {company?.content || "Dream Doll 专注于高奢梦幻玩偶的设计与制造，拥有专业玩偶工厂，致力于为每一个珍视童心的你，打造可珍藏一生的精致玩偶。"}
+                {t(lang, "home.philosophy_desc")}
               </p>
               <Link
                 href="/about"
                 className="inline-flex items-center gap-2 text-primary text-sm font-medium hover:gap-3 transition-all"
               >
-                了解更多 <ArrowRight size={14} />
+                {t(lang, "home.learn_more")} <ArrowRight size={14} />
               </Link>
             </div>
-            {company?.image_key && imageUrls[company.image_key] && (
-              <div className="order-1 md:order-2 relative aspect-[4/5] rounded-2xl overflow-hidden">
-                <Image src={imageUrls[company.image_key]} alt={company.title || "Dream Doll"} fill className="object-cover" />
-              </div>
-            )}
+            <div className="relative aspect-[4/5] rounded-2xl overflow-hidden bg-gradient-to-br from-primary/5 to-primary/10 flex items-center justify-center">
+              <span className="text-8xl text-primary/20">{getPlaceholder()}</span>
+            </div>
           </div>
         </div>
       </section>
 
-      {/* ==================== 产品系列精选 ==================== */}
+      {/* ==================== Featured Products ==================== */}
       {featuredProducts.length > 0 && (
-        <section className="py-20 md:py-28 section-padding">
+        <section className="py-20 md:py-28 px-4 md:px-8">
           <div className="max-w-7xl mx-auto">
             <div className="text-center mb-12 md:mb-16">
-              <span className="text-xs tracking-[0.3em] text-primary/60 uppercase font-medium">产品系列</span>
-              <h2 className="font-serif text-3xl md:text-4xl text-foreground font-light mt-4">精选系列</h2>
+              <span className="text-xs tracking-[0.3em] text-primary/60 uppercase font-medium">{t(lang, "products.title")}</span>
+              <h2 className="font-serif text-3xl md:text-4xl text-foreground font-light mt-4">{t(lang, "home.featured")}</h2>
               <p className="text-muted-foreground text-sm mt-3 max-w-md mx-auto">
-                每一件玩偶都是匠心之作，传递梦幻与温暖
+                {t(lang, "home.featured_desc")}
               </p>
             </div>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
@@ -231,18 +216,9 @@ export default function HomePage() {
                   className="group"
                 >
                   <div className="relative aspect-square rounded-2xl overflow-hidden bg-gradient-to-br from-primary/[0.04] to-secondary/[0.04] mb-4">
-                    {product.image_keys?.[0] && imageUrls[product.image_keys[0]] ? (
-                      <Image
-                        src={imageUrls[product.image_keys[0]]}
-                        alt={product.name}
-                        fill
-                        className="object-cover group-hover:scale-105 transition-transform duration-700"
-                      />
-                    ) : (
-                      <div className="w-full h-full flex items-center justify-center">
-                        <span className="font-serif text-5xl text-primary/20">{product.name[0]}</span>
-                      </div>
-                    )}
+                    <div className="w-full h-full flex items-center justify-center">
+                      <span className="font-serif text-5xl text-primary/20">{getPlaceholder()}</span>
+                    </div>
                   </div>
                   <h3 className="font-serif text-sm text-foreground/90 group-hover:text-primary transition-colors">
                     {product.name}
@@ -258,31 +234,25 @@ export default function HomePage() {
                 href="/products/ballet"
                 className="inline-flex items-center gap-2 px-6 py-2.5 border border-primary/30 text-primary text-sm rounded-full hover:bg-primary hover:text-white transition-all"
               >
-                查看全部产品 <ArrowRight size={14} />
+                {t(lang, "home.view_all")} <ArrowRight size={14} />
               </Link>
             </div>
           </div>
         </section>
       )}
 
-      {/* ==================== 合作客户 ==================== */}
+      {/* ==================== Clients ==================== */}
       {clients.length > 0 && (
-        <section className="py-16 md:py-20 section-padding bg-gray-50/50">
+        <section className="py-16 md:py-20 px-4 md:px-8 bg-gray-50/50">
           <div className="max-w-7xl mx-auto">
             <div className="text-center mb-12">
-              <span className="text-xs tracking-[0.3em] text-primary/60 uppercase font-medium">合作客户</span>
-              <h2 className="font-serif text-3xl md:text-4xl text-foreground font-light mt-4">信赖我们的伙伴</h2>
+              <span className="text-xs tracking-[0.3em] text-primary/60 uppercase font-medium">{t(lang, "nav.clients")}</span>
+              <h2 className="font-serif text-3xl md:text-4xl text-foreground font-light mt-4">{t(lang, "home.clients_title")}</h2>
             </div>
             <div className="grid grid-cols-3 md:grid-cols-6 gap-6 md:gap-8 items-center">
               {clients.slice(0, 6).map((client) => (
                 <div key={client.id} className="flex items-center justify-center p-4">
-                  {client.logo_key && imageUrls[client.logo_key] ? (
-                    <div className="relative w-20 h-20 md:w-24 md:h-24">
-                      <Image src={imageUrls[client.logo_key]} alt={client.name} fill className="object-contain opacity-60 hover:opacity-100 transition-opacity" />
-                    </div>
-                  ) : (
-                    <span className="text-sm text-muted-foreground">{client.name}</span>
-                  )}
+                  <span className="text-sm text-muted-foreground">{client.name}</span>
                 </div>
               ))}
             </div>
@@ -290,25 +260,21 @@ export default function HomePage() {
         </section>
       )}
 
-      {/* ==================== 合作案例 ==================== */}
+      {/* ==================== Cases ==================== */}
       {cases.length > 0 && (
-        <section className="py-20 md:py-28 section-padding">
+        <section className="py-20 md:py-28 px-4 md:px-8">
           <div className="max-w-7xl mx-auto">
             <div className="text-center mb-12 md:mb-16">
-              <span className="text-xs tracking-[0.3em] text-primary/60 uppercase font-medium">合作案例</span>
-              <h2 className="font-serif text-3xl md:text-4xl text-foreground font-light mt-4">我们的作品</h2>
+              <span className="text-xs tracking-[0.3em] text-primary/60 uppercase font-medium">{t(lang, "nav.cases")}</span>
+              <h2 className="font-serif text-3xl md:text-4xl text-foreground font-light mt-4">{t(lang, "home.cases_title")}</h2>
             </div>
             <div className="grid md:grid-cols-3 gap-6">
               {cases.slice(0, 3).map((item) => (
                 <Link key={item.id} href="/cases" className="group">
                   <div className="relative aspect-[4/5] rounded-2xl overflow-hidden mb-4">
-                    {item.image_keys?.[0] && imageUrls[item.image_keys[0]] ? (
-                      <Image src={imageUrls[item.image_keys[0]]} alt={item.title} fill className="object-cover group-hover:scale-105 transition-transform duration-700" />
-                    ) : (
-                      <div className="w-full h-full bg-gradient-to-br from-primary/[0.04] to-secondary/[0.04] flex items-center justify-center">
-                        <span className="font-serif text-4xl text-primary/20">{item.title[0]}</span>
-                      </div>
-                    )}
+                    <div className="w-full h-full bg-gradient-to-br from-primary/[0.04] to-secondary/[0.04] flex items-center justify-center">
+                      <span className="text-4xl text-primary/20">📋</span>
+                    </div>
                   </div>
                   <h3 className="font-serif text-sm text-foreground/90 group-hover:text-primary transition-colors">{item.title}</h3>
                   {item.client_name && <p className="text-xs text-muted-foreground mt-1">{item.client_name}</p>}
@@ -320,24 +286,22 @@ export default function HomePage() {
       )}
 
       {/* ==================== CTA ==================== */}
-      <section className="py-20 md:py-28 section-padding bg-gradient-to-b from-primary/[0.03] to-background">
+      <section className="py-20 md:py-28 px-4 md:px-8 bg-gradient-to-b from-primary/[0.03] to-background">
         <div className="max-w-7xl mx-auto text-center">
           <h2 className="font-serif text-3xl md:text-4xl text-foreground font-light mb-4">
-            开启梦幻合作之旅
+            {t(lang, "home.cta_title")}
           </h2>
           <p className="text-muted-foreground text-sm max-w-md mx-auto mb-8">
-            无论是 OEM 加工还是品牌合作，我们都期待与您共创美好
+            {t(lang, "home.cta_desc")}
           </p>
           <Link
             href="/contact"
             className="inline-flex items-center gap-2 px-8 py-3 bg-primary text-white text-sm tracking-wide rounded-full hover:bg-primary/90 transition-all"
           >
-            联系我们 <ArrowRight size={14} />
+            {t(lang, "contact.title")} <ArrowRight size={14} />
           </Link>
         </div>
       </section>
-
-      <Footer />
     </div>
   );
 }

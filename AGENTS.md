@@ -104,7 +104,30 @@
    2. preload, preconnect, dns-prefetch 通过 ReactDOM 的 preload、preconnect、dns-prefetch 方法引入
    3. json-ld 可阅读 https://nextjs.org/docs/app/guides/json-ld
 
-## UI 设计与组件规范 (UI & Styling Standards)
+## 中英文双语支持 (i18n)
+
+### 架构
+- **`src/lib/locales/zh.ts`** — 中文翻译字典
+- **`src/lib/locales/en.ts`** — 英文翻译字典
+- **`src/lib/locales/context.tsx`** — 语言上下文 + 切换逻辑
+
+### 使用方式
+```tsx
+import { useLang, t, Lang } from "@/lib/locales/context";
+
+function Component() {
+  const { lang, setLang } = useLang();  // lang: "zh" | "en"
+  return <h1>{t(lang, "nav.home")}</h1>;
+}
+```
+
+- `t(lang, "dot.path")` — 从翻译字典中取值，key 不存在时返回 key 本身
+- `setLang("zh" | "en")` — 切换语言
+- 页面包裹：根 layout.tsx 中已嵌套 `LangWrapper`（含 LangProvider + Navbar + Footer）
+- 语言切换按钮在导航栏右侧（显示"EN"或"中文"）
+
+### 新增翻译
+在 `zh.ts` 和 `en.ts` 中同步添加同一结构的 key 即可，无需修改类型定义。
 
 - 模板默认预装核心组件库 `shadcn/ui`，位于`src/components/ui/`目录下
 - Next.js 项目**必须默认**采用 shadcn/ui 组件、风格和规范，**除非用户指定用其他的组件和规范。**

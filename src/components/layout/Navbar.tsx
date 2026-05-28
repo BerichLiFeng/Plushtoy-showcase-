@@ -4,28 +4,30 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
-import { Menu, X } from "lucide-react";
+import { Menu, X, Globe } from "lucide-react";
+import { useLang, t, type Lang } from "@/lib/locales/context";
 
-const navLinks = [
-  { href: "/", label: "首页" },
-  { href: "/about", label: "品牌故事" },
-  { href: "/business", label: "业务板块" },
-  { href: "/products/ballet", label: "产品系列" },
-  { href: "/clients", label: "合作客户" },
-  { href: "/cases", label: "合作案例" },
-  { href: "/certifications", label: "工厂资质" },
-  { href: "/exhibitions", label: "展会集锦" },
-  { href: "/contact", label: "联系我们" },
+const navLinks = (lang: Lang) => [
+  { href: "/", label: t(lang, "nav.home") },
+  { href: "/about", label: t(lang, "nav.about") },
+  { href: "/business", label: t(lang, "nav.business") },
+  { href: "/products/ballet", label: t(lang, "nav.products") },
+  { href: "/clients", label: t(lang, "nav.clients") },
+  { href: "/cases", label: t(lang, "nav.cases") },
+  { href: "/certifications", label: t(lang, "nav.certifications") },
+  { href: "/exhibitions", label: t(lang, "nav.exhibitions") },
+  { href: "/contact", label: t(lang, "nav.contact") },
 ];
 
-const productSubLinks = [
-  { href: "/products/ballet", label: "梦幻芭蕾风" },
-  { href: "/products/classic", label: "经典毛绒布艺" },
-  { href: "/products/newborn", label: "新生儿玩偶" },
+const productSubLinks = (lang: Lang) => [
+  { href: "/products/ballet", label: t(lang, "nav.sub.ballet") },
+  { href: "/products/classic", label: t(lang, "nav.sub.classic") },
+  { href: "/products/newborn", label: t(lang, "nav.sub.newborn") },
 ];
 
 export default function Navbar() {
   const pathname = usePathname();
+  const { lang, setLang } = useLang();
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [showSubMenu, setShowSubMenu] = useState(false);
@@ -47,6 +49,9 @@ export default function Navbar() {
     return pathname.startsWith(href);
   };
 
+  const links = navLinks(lang);
+  const subLinks = productSubLinks(lang);
+
   return (
     <header
       className={cn(
@@ -65,7 +70,7 @@ export default function Navbar() {
             : "h-7 opacity-100 text-white/80 bg-transparent"
         )}
       >
-        <span className="tracking-[0.2em]">高奢梦幻玩偶 · 匠心工艺 · 品质传承</span>
+        <span className="tracking-[0.2em]">{t(lang, "tagline")}</span>
       </div>
 
       {/* Main nav */}
@@ -78,13 +83,13 @@ export default function Navbar() {
             </span>
             <span className="hidden sm:inline-block w-px h-5 bg-primary/30" />
             <span className="hidden sm:block text-[10px] tracking-[0.25em] text-primary/60 uppercase">
-              梦幻玩偶
+              {t(lang, "brand.sub")}
             </span>
           </Link>
 
           {/* Desktop nav */}
           <nav className="hidden lg:flex items-center gap-1">
-            {navLinks.map((link) => {
+            {links.map((link) => {
               if (link.href === "/products/ballet") {
                 return (
                   <div
@@ -106,7 +111,7 @@ export default function Navbar() {
                     </Link>
                     {showSubMenu && (
                       <div className="absolute top-full left-0 mt-1 w-44 bg-white rounded-lg shadow-lg border border-border/50 py-2 animate-in fade-in slide-in-from-top-2 duration-200">
-                        {productSubLinks.map((sub) => (
+                        {subLinks.map((sub) => (
                           <Link
                             key={sub.href}
                             href={sub.href}
@@ -140,16 +145,35 @@ export default function Navbar() {
                 </Link>
               );
             })}
+
+            {/* Language Switch */}
+            <div className="ml-3 pl-3 border-l border-border/30">
+              <button
+                onClick={() => setLang(lang === "zh" ? "en" : "zh")}
+                className="flex items-center gap-1.5 px-3 py-2 text-sm rounded-md transition-colors text-foreground/70 hover:text-primary hover:bg-primary/5"
+              >
+                <Globe size={14} />
+                <span className="font-medium">{lang === "zh" ? "EN" : "中文"}</span>
+              </button>
+            </div>
           </nav>
 
-          {/* Mobile toggle */}
-          <button
-            onClick={() => setMobileOpen(!mobileOpen)}
-            className="lg:hidden p-2 text-foreground/70 hover:text-primary"
-            aria-label="Toggle menu"
-          >
-            {mobileOpen ? <X size={22} /> : <Menu size={22} />}
-          </button>
+          {/* Mobile right area */}
+          <div className="flex items-center gap-2 lg:hidden">
+            <button
+              onClick={() => setLang(lang === "zh" ? "en" : "zh")}
+              className="p-2 text-foreground/70 hover:text-primary text-xs font-medium"
+            >
+              {lang === "zh" ? "EN" : "中文"}
+            </button>
+            <button
+              onClick={() => setMobileOpen(!mobileOpen)}
+              className="p-2 text-foreground/70 hover:text-primary"
+              aria-label="Toggle menu"
+            >
+              {mobileOpen ? <X size={22} /> : <Menu size={22} />}
+            </button>
+          </div>
         </div>
       </div>
 
@@ -157,7 +181,7 @@ export default function Navbar() {
       {mobileOpen && (
         <div className="lg:hidden bg-white/98 backdrop-blur-md border-t border-border/50 animate-in slide-in-from-top-2 duration-200">
           <nav className="max-w-7xl mx-auto px-4 py-4 space-y-1">
-            {navLinks.map((link) => (
+            {links.map((link) => (
               <div key={link.href}>
                 <Link
                   href={link.href}
@@ -172,7 +196,7 @@ export default function Navbar() {
                 </Link>
                 {link.href === "/products/ballet" && (
                   <div className="ml-4 pl-3 border-l border-border/50 space-y-1 mt-1">
-                    {productSubLinks.map((sub) => (
+                    {subLinks.map((sub) => (
                       <Link
                         key={sub.href}
                         href={sub.href}
